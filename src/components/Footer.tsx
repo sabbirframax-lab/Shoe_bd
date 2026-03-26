@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
               <span className="font-bold text-xl tracking-tight">ShoeBD</span>
             </div>
             <p className="text-gray-400 text-sm mb-4">
-              Your premium destination for quality footwear in Bangladesh. We offer the best brands with Cash on Delivery nationwide.
+              বাংলাদেশে মানসম্মত জুতোর জন্য আপনার প্রিমিয়াম গন্তব্য। আমরা দেশব্যাপী ক্যাশ অন ডেলিভারি সহ সেরা ব্র্যান্ডগুলো অফার করি।
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors"><Facebook className="w-5 h-5" /></a>
@@ -25,35 +25,35 @@ const Footer: React.FC = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">কুইক লিংক</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to="/" className="hover:text-orange-500 transition-colors">Home</Link></li>
-              <li><Link to="/products" className="hover:text-orange-500 transition-colors">Shop All</Link></li>
-              <li><Link to="/products?category=Formal" className="hover:text-orange-500 transition-colors">Formal Shoes</Link></li>
-              <li><Link to="/products?category=Casual" className="hover:text-orange-500 transition-colors">Casual Shoes</Link></li>
+              <li><Link to="/" className="hover:text-orange-500 transition-colors">হোম</Link></li>
+              <li><Link to="/products" className="hover:text-orange-500 transition-colors">সব পণ্য</Link></li>
+              <li><Link to="/products?category=ফরমাল" className="hover:text-orange-500 transition-colors">ফরমাল জুতো</Link></li>
+              <li><Link to="/products?category=ক্যাজুয়াল" className="hover:text-orange-500 transition-colors">ক্যাজুয়াল জুতো</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
+            <h3 className="text-lg font-semibold mb-4">কাস্টমার সার্ভিস</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Track Order</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Returns & Exchanges</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Shipping Policy</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">FAQ</a></li>
+              <li><a href="#" className="hover:text-orange-500 transition-colors">অর্ডার ট্র্যাক করুন</a></li>
+              <li><a href="#" className="hover:text-orange-500 transition-colors">রিটার্ন ও এক্সচেঞ্জ</a></li>
+              <li><a href="#" className="hover:text-orange-500 transition-colors">শিপিং পলিসি</a></li>
+              <li><a href="#" className="hover:text-orange-500 transition-colors">সাধারণ জিজ্ঞাসা (FAQ)</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4">যোগাযোগ করুন</h3>
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-orange-500 shrink-0" />
-                <span>Level 4, Bashundhara City Shopping Complex, Panthapath, Dhaka</span>
+                <span>লেভেল ৪, বসুন্ধরা সিটি শপিং কমপ্লেক্স, পান্থপথ, ঢাকা</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-orange-500 shrink-0" />
-                <span>+880 1711-000000</span>
+                <span>+৮৮০ ১৭১১-০০০০০০</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-orange-500 shrink-0" />
@@ -64,10 +64,10 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} ShoeBD. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ShoeBD. সর্বস্বত্ব সংরক্ষিত।</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white">Privacy Policy</a>
-            <a href="#" className="hover:text-white">Terms of Service</a>
+            <a href="#" className="hover:text-white">গোপনীয়তা নীতি</a>
+            <a href="#" className="hover:text-white">পরিষেবার শর্তাবলী</a>
           </div>
         </div>
       </div>

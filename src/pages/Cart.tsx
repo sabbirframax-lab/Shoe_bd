@@ -13,13 +13,13 @@ const Cart: React.FC = () => {
         <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
           <ShoppingBag className="w-10 h-10 text-gray-400" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-        <p className="text-gray-500 mb-8">Looks like you haven't added anything to your cart yet.</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">আপনার কার্ট খালি</h2>
+        <p className="text-gray-500 mb-8">মনে হচ্ছে আপনি এখনও আপনার কার্টে কিছু যোগ করেননি।</p>
         <Link 
           to="/products" 
           className="bg-orange-600 text-white px-8 py-3 rounded-full font-bold hover:bg-orange-700 transition-colors"
         >
-          Start Shopping
+          শপিং শুরু করুন
         </Link>
       </div>
     );
@@ -28,7 +28,7 @@ const Cart: React.FC = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">শপিং কার্ট</h1>
         
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Cart Items */}
@@ -53,7 +53,7 @@ const Cart: React.FC = () => {
                               {item.name}
                             </Link>
                           </h3>
-                          <p className="text-sm text-gray-500 mt-1">Size: {item.selectedSize}</p>
+                          <p className="text-sm text-gray-500 mt-1">সাইজ: {item.selectedSize}</p>
                         </div>
                         <p className="text-lg font-bold text-gray-900">৳{(item.price * item.quantity).toLocaleString()}</p>
                       </div>
@@ -79,7 +79,7 @@ const Cart: React.FC = () => {
                         <button 
                           onClick={() => removeFromCart(item.cartItemId)}
                           className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition-colors"
-                          aria-label="Remove item"
+                          aria-label="আইটেম সরান"
                         >
                           <Trash2 className="w-5 h-5" />
                         </button>
@@ -94,19 +94,19 @@ const Cart: React.FC = () => {
           {/* Order Summary */}
           <div className="lg:w-1/3">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">অর্ডার সারাংশ</h2>
               
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal</span>
+                  <span>সাবটোটাল</span>
                   <span>৳{cartTotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span className="text-green-600 font-medium">Free</span>
+                  <span>শিপিং</span>
+                  <span className="text-green-600 font-medium">ফ্রি</span>
                 </div>
                 <div className="border-t border-gray-100 pt-4 flex justify-between items-center">
-                  <span className="text-lg font-bold text-gray-900">Total</span>
+                  <span className="text-lg font-bold text-gray-900">মোট</span>
                   <span className="text-2xl font-bold text-orange-600">৳{cartTotal.toLocaleString()}</span>
                 </div>
               </div>
@@ -115,11 +115,11 @@ const Cart: React.FC = () => {
                 onClick={() => navigate('/checkout')}
                 className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
               >
-                Proceed to Checkout <ArrowRight className="w-5 h-5" />
+                চেকআউটে যান <ArrowRight className="w-5 h-5" />
               </button>
               
               <div className="mt-6 text-center text-sm text-gray-500">
-                <p>Secure checkout with Cash on Delivery</p>
+                <p>ক্যাশ অন ডেলিভারির মাধ্যমে নিরাপদ চেকআউট</p>
               </div>
             </div>
           </div>

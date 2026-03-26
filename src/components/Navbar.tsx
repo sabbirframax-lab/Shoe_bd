@@ -25,10 +25,10 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">Home</Link>
-            <Link to="/products" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">Shop</Link>
-            <Link to="/products?category=Formal" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">Formal</Link>
-            <Link to="/products?category=Casual" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">Casual</Link>
+            <Link to="/" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">হোম</Link>
+            <Link to="/products" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">শপ</Link>
+            <Link to="/products?category=ফরমাল" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">ফরমাল</Link>
+            <Link to="/products?category=ক্যাজুয়াল" className="text-gray-600 hover:text-orange-600 font-medium transition-colors">ক্যাজুয়াল</Link>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -59,10 +59,10 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Home</Link>
-            <Link to="/products" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Shop All</Link>
-            <Link to="/products?category=Formal" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Formal Shoes</Link>
-            <Link to="/products?category=Casual" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Casual Shoes</Link>
+            <Link to="/" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">হোম</Link>
+            <Link to="/products" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">সব পণ্য</Link>
+            <Link to="/products?category=ফরমাল" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">ফরমাল জুতো</Link>
+            <Link to="/products?category=ক্যাজুয়াল" onClick={closeMenu} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">ক্যাজুয়াল জুতো</Link>
           </div>
         </div>
       )}

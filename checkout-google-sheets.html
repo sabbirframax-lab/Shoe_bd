@@ -118,54 +118,54 @@
 </head>
 <body>
 
-    <h1>Store Checkout</h1>
-    <div id="success-message">🎉 Order placed successfully! We will contact you soon.</div>
-    <div id="error-message">❌ Failed to place order. Please try again.</div>
+    <h1>স্টোর চেকআউট</h1>
+    <div id="success-message">🎉 অর্ডার সফলভাবে সম্পন্ন হয়েছে! আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।</div>
+    <div id="error-message">❌ অর্ডার করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।</div>
     
     <div class="container">
         <!-- Cart Section -->
         <div class="card">
-            <h2>Your Cart</h2>
+            <h2>আপনার কার্ট</h2>
             <div id="cart-list"></div>
             <div class="total">
-                <strong>Total: $<span id="cart-total">0.00</span></strong>
+                <strong>সর্বমোট: ৳<span id="cart-total">0.00</span></strong>
             </div>
             
-            <h3 style="margin-top: 30px; font-size: 1rem;">Available Products</h3>
+            <h3 style="margin-top: 30px; font-size: 1rem;">উপলব্ধ পণ্যসমূহ</h3>
             <div id="products-list"></div>
         </div>
 
         <!-- Checkout Form Section -->
         <div class="card">
-            <h2>Checkout Details</h2>
+            <h2>চেকআউটের বিবরণ</h2>
             
             <form id="checkout-form">
                 <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                    <label for="name">সম্পূর্ণ নাম</label>
+                    <input type="text" id="name" name="name" required placeholder="আপনার নাম">
                 </div>
                 
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+1 234 567 8900">
+                    <label for="phone">ফোন নম্বর</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="০১৭XXXXXXXX">
                 </div>
                 
                 <div class="form-group">
-                    <label for="address">Delivery Address</label>
-                    <textarea id="address" name="address" required rows="3" placeholder="123 Main St, City, Country"></textarea>
+                    <label for="address">ডেলিভারি ঠিকানা</label>
+                    <textarea id="address" name="address" required rows="3" placeholder="আপনার সম্পূর্ণ ঠিকানা"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label for="order-summary">Order Summary</label>
-                    <input type="text" id="order-summary" readonly placeholder="Empty cart">
+                    <label for="order-summary">অর্ডারের সারাংশ</label>
+                    <input type="text" id="order-summary" readonly placeholder="কার্ট খালি">
                 </div>
                 
                 <div class="form-group">
-                    <label for="order-total-input">Total Price</label>
-                    <input type="text" id="order-total-input" readonly placeholder="$0.00">
+                    <label for="order-total-input">সর্বমোট মূল্য</label>
+                    <input type="text" id="order-total-input" readonly placeholder="৳০.০০">
                 </div>
 
-                <button type="submit" id="submit-btn">Place Order</button>
+                <button type="submit" id="submit-btn">অর্ডার করুন</button>
             </form>
         </div>
     </div>
@@ -175,15 +175,15 @@
         const products = [
             { 
                 id: 1, 
-                name: "Running Shoes", 
-                price: 120, 
-                image: "https://picsum.photos/seed/shoes1/150/150" 
+                name: "রানিং শু (Running Shoes)", 
+                price: 2500, 
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80" 
             },
             { 
                 id: 2, 
-                name: "Classic Loafers", 
-                price: 85, 
-                image: "https://picsum.photos/seed/shoes2/150/150" 
+                name: "ক্লাসিক লোফার (Classic Loafers)", 
+                price: 3200, 
+                image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=300&q=80" 
             }
         ];
         
@@ -196,10 +196,10 @@
                         <img src="${p.image}" alt="${p.name}" referrerpolicy="no-referrer">
                         <div>
                             <strong>${p.name}</strong><br>
-                            <span style="color: #666;">$${p.price}</span>
+                            <span style="color: #666;">৳${p.price}</span>
                         </div>
                     </div>
-                    <button class="btn-add" type="button" onclick="addToCart(${p.id})">Add</button>
+                    <button class="btn-add" type="button" onclick="addToCart(${p.id})">যুক্ত করুন</button>
                 </div>
             `).join('');
         }
@@ -207,7 +207,7 @@
         function renderCart() {
             const cartList = document.getElementById('cart-list');
             if (cart.length === 0) {
-                cartList.innerHTML = '<div style="color:#666; padding: 10px 0;">Cart is empty</div>';
+                cartList.innerHTML = '<div style="color:#666; padding: 10px 0;">কার্ট খালি</div>';
             } else {
                 cartList.innerHTML = cart.map(item => `
                     <div class="item">
@@ -217,7 +217,7 @@
                                 <strong>${item.quantity}x ${item.name}</strong>
                             </div>
                         </div>
-                        <strong>$${(item.price * item.quantity).toFixed(2)}</strong>
+                        <strong>৳${(item.price * item.quantity).toFixed(2)}</strong>
                     </div>
                 `).join('');
             }
@@ -232,7 +232,7 @@
             const totalPriceStr = total.toFixed(2);
 
             document.getElementById('order-summary').value = orderSummary;
-            document.getElementById('order-total-input').value = `$${totalPriceStr}`;
+            document.getElementById('order-total-input').value = `৳${totalPriceStr}`;
         }
 
         function addToCart(productId) {
@@ -266,11 +266,11 @@
             e.preventDefault();
 
             if (cart.length === 0) {
-                alert("Your cart is empty! Please add items before checking out.");
+                alert("আপনার কার্ট খালি! অনুগ্রহ করে চেকআউট করার আগে পণ্য যুক্ত করুন।");
                 return;
             }
 
-            submitBtn.textContent = 'Processing...';
+            submitBtn.textContent = 'প্রসেস হচ্ছে...';
             submitBtn.disabled = true;
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
@@ -317,10 +317,10 @@
                 }
             } catch (error) {
                 console.error('Error!', error);
-                errorMessage.textContent = '❌ ' + (error.message || 'Failed to place order. Please try again.');
+                errorMessage.textContent = '❌ ' + (error.message || 'অর্ডার করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
                 errorMessage.style.display = 'block';
             } finally {
-                submitBtn.textContent = 'Place Order';
+                submitBtn.textContent = 'অর্ডার করুন';
                 submitBtn.disabled = false;
             }
         });

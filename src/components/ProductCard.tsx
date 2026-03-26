@@ -18,17 +18,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         />
         {product.originalPrice && (
           <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-            Sale
+            সেল
           </div>
         )}
         {product.stock <= 5 && product.stock > 0 && (
           <div className="absolute bottom-3 left-3 bg-orange-100 text-orange-800 text-xs font-semibold px-2 py-1 rounded-md">
-            Only {product.stock} left!
+            মাত্র {product.stock} টি বাকি!
           </div>
         )}
         {product.stock === 0 && (
           <div className="absolute inset-0 bg-white/60 flex items-center justify-center backdrop-blur-[2px]">
-            <span className="bg-gray-900 text-white font-bold px-4 py-2 rounded-lg text-sm uppercase tracking-wider">Out of Stock</span>
+            <span className="bg-gray-900 text-white font-bold px-4 py-2 rounded-lg text-sm uppercase tracking-wider">স্টক আউট</span>
           </div>
         )}
       </Link>
@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Link 
             to={`/product/${product.id}`}
             className="bg-gray-900 hover:bg-orange-600 text-white p-2 rounded-full transition-colors"
-            aria-label="View Details"
+            aria-label="বিস্তারিত দেখুন"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </Link>

@@ -7,14 +7,14 @@ import { Filter } from 'lucide-react';
 const Products: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const initialCategory = queryParams.get('category') || 'All';
+  const initialCategory = queryParams.get('category') || 'সব';
 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
-    if (activeCategory === 'All') {
+    if (activeCategory === 'সব') {
       setFilteredProducts(products);
     } else {
       setFilteredProducts(products.filter(p => p.category === activeCategory));
@@ -33,8 +33,8 @@ const Products: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Our Collection</h1>
-            <p className="text-gray-500">Showing {filteredProducts.length} results</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">আমাদের কালেকশন</h1>
+            <p className="text-gray-500">দেখাচ্ছে {filteredProducts.length} টি ফলাফল</p>
           </div>
           
           <div className="md:hidden">
@@ -42,7 +42,7 @@ const Products: React.FC = () => {
               onClick={() => setIsFilterOpen(!isFilterOpen)}
               className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg text-gray-700 font-medium w-full justify-center"
             >
-              <Filter className="w-4 h-4" /> Filter by Category
+              <Filter className="w-4 h-4" /> ক্যাটাগরি ফিল্টার করুন
             </button>
           </div>
 
@@ -76,13 +76,13 @@ const Products: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-500">Try selecting a different category.</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">কোনো পণ্য পাওয়া যায়নি</h3>
+            <p className="text-gray-500">অন্য একটি ক্যাটাগরি নির্বাচন করার চেষ্টা করুন।</p>
             <button 
-              onClick={() => setActiveCategory('All')}
+              onClick={() => setActiveCategory('সব')}
               className="mt-6 bg-orange-600 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-700 transition-colors"
             >
-              View All Products
+              সব পণ্য দেখুন
             </button>
           </div>
         )}

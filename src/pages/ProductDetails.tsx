@@ -15,17 +15,21 @@ const ProductDetails: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
   const [error, setError] = useState('');
+  const [selectedImage, setSelectedImage] = useState<string>('');
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+    if (product) {
+      setSelectedImage(product.images?.[0] || product.image);
+    }
+  }, [id, product]);
 
   if (!product) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Product not found</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">পণ্য পাওয়া যায়নি</h2>
         <Link to="/products" className="text-orange-600 hover:underline flex items-center gap-2">
-          <ArrowLeft className="w-4 h-4" /> Back to Shop
+          <ArrowLeft className="w-4 h-4" /> শপে ফিরে যান
         </Link>
       </div>
     );
@@ -33,7 +37,7 @@ const ProductDetails: React.FC = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      setError('Please select a size');
+      setError('দয়া করে একটি সাইজ নির্বাচন করুন');
       return;
     }
     
@@ -48,7 +52,7 @@ const ProductDetails: React.FC = () => {
 
   const handleBuyNow = () => {
     if (!selectedSize) {
-      setError('Please select a size');
+      setError('দয়া করে একটি সাইজ নির্বাচন করুন');
       return;
     }
     
@@ -60,7 +64,7 @@ const ProductDetails: React.FC = () => {
     <div className="bg-white min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/products" className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-8 transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Back to Collection
+          <ArrowLeft className="w-4 h-4" /> কালেকশনে ফিরে যান
         </Link>
         
         <div className="flex flex-col lg:flex-row gap-12">
@@ -68,23 +72,29 @@ const ProductDetails: React.FC = () => {
           <div className="lg:w-1/2">
             <div className="bg-gray-100 rounded-3xl overflow-hidden aspect-square relative">
               <img 
-                src={product.image} 
+                src={selectedImage || product.image} 
                 alt={product.name} 
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-center transition-opacity duration-300"
               />
               {product.originalPrice && (
                 <div className="absolute top-4 left-4 bg-red-500 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm">
-                  Sale
+                  সেল
                 </div>
               )}
             </div>
             
             <div className="grid grid-cols-4 gap-4 mt-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border-2 border-transparent hover:border-orange-500 transition-colors">
+              {(product.images || [product.image, `${product.image}?var=2`, `${product.image}?var=3`, `${product.image}?var=4`]).map((img, i) => (
+                <div 
+                  key={i} 
+                  onClick={() => setSelectedImage(img)}
+                  className={`bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border-2 transition-colors ${
+                    selectedImage === img ? 'border-orange-500' : 'border-transparent hover:border-orange-300'
+                  }`}
+                >
                   <img 
-                    src={`${product.image}?var=${i}`} 
-                    alt={`${product.name} view ${i}`} 
+                    src={img} 
+                    alt={`${product.name} view ${i + 1}`} 
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -110,8 +120,8 @@ const ProductDetails: React.FC = () => {
             
             <div className="mb-8 border-t border-b border-gray-100 py-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Select Size (EU)</h3>
-                <button className="text-sm text-gray-500 underline hover:text-gray-900">Size Guide</button>
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">সাইজ নির্বাচন করুন (EU)</h3>
+                <button className="text-sm text-gray-500 underline hover:text-gray-900">সাইজ গাইড</button>
               </div>
               
               <div className="flex flex-wrap gap-3">
@@ -140,7 +150,7 @@ const ProductDetails: React.FC = () => {
             </div>
             
             <div className="mb-8">
-              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Quantity</h3>
+              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">পরিমাণ</h3>
               <div className="flex items-center">
                 <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
                   <button 
@@ -161,10 +171,10 @@ const ProductDetails: React.FC = () => {
                 <span className="ml-4 text-sm text-gray-500">
                   {product.stock > 0 ? (
                     <span className={product.stock <= 5 ? "text-orange-600 font-semibold" : ""}>
-                      {product.stock} items available
+                      {product.stock} টি আইটেম উপলব্ধ
                     </span>
                   ) : (
-                    <span className="text-red-500 font-semibold">Out of stock</span>
+                    <span className="text-red-500 font-semibold">স্টক আউট</span>
                   )}
                 </span>
               </div>
@@ -181,9 +191,9 @@ const ProductDetails: React.FC = () => {
                 } ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {isAdded ? (
-                  <><Check className="w-5 h-5" /> Added to Cart</>
+                  <><Check className="w-5 h-5" /> কার্টে যোগ করা হয়েছে</>
                 ) : (
-                  'Add to Cart'
+                  'কার্টে যোগ করুন'
                 )}
               </button>
               
@@ -196,18 +206,18 @@ const ProductDetails: React.FC = () => {
                     : 'bg-orange-600 hover:bg-orange-700 hover:shadow-orange-500/30'
                 }`}
               >
-                Buy Now
+                এখনই কিনুন
               </button>
             </div>
             
             <div className="mt-8 grid grid-cols-2 gap-4 pt-8 border-t border-gray-100 pb-24 sm:pb-0">
               <div className="flex items-center gap-3 text-sm text-gray-600">
                 <Truck className="w-5 h-5 text-gray-400" />
-                <span>Free delivery inside Dhaka</span>
+                <span>ঢাকার ভিতরে ফ্রি ডেলিভারি</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-600">
                 <ShieldCheck className="w-5 h-5 text-gray-400" />
-                <span>7 days return policy</span>
+                <span>৭ দিনের রিটার্ন পলিসি</span>
               </div>
             </div>
           </div>
