@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla JS Shopping Cart</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1, h2 {
+            color: #111;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        button {
+            background: #ea580c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #c2410c;
+        }
+        .btn-small {
+            padding: 4px 8px;
+            background: #e5e7eb;
+            color: #374151;
+        }
+        .btn-small:hover {
+            background: #d1d5db;
+        }
+        .btn-remove {
+            background: #ef4444;
+            padding: 4px 8px;
+        }
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .total {
+            text-align: right;
+            font-size: 1.25rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        .empty-cart {
+            text-align: center;
+            color: #6b7280;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple JS Shopping Cart</h1>
+    
+    <div class="container">
+        <!-- Products Section -->
+        <div class="card">
+            <h2>Products</h2>
+            <div id="products-list"></div>
+        </div>
+
+        <!-- Cart Section -->
+        <div class="card">
+            <h2>Your Cart</h2>
+            <div id="cart-list"></div>
+            <div class="total">
+                <strong>Total: $<span id="cart-total">0.00</span></strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Initial Data
+        const products = [
+            { id: 1, name: "Running Shoes", price: 120 },
+            { id: 2, name: "Classic Loafers", price: 85 },
+            { id: 3, name: "Urban Sneakers", price: 95 },
+            { id: 4, name: "Trekking Boots", price: 150 }
+        ];
+
+        // 2. Initialize Cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('vanilla_js_cart')) || [];
+
+        // DOM Elements
+        const productsList = document.getElementById('products-list');
+        const cartList = document.getElementById('cart-list');
+        const cartTotal = document.getElementById('cart-total');
+
+        // 3. Render Products
+        function renderProducts() {
+            productsList.innerHTML = products.map(product => `
+                <div class="item">
+                    <div>
+                        <strong>${product.name}</strong><br>
+                        <span style="color: #666;">$${product.price.toFixed(2)}</span>
+                    </div>
+                    <button onclick="addToCart(${product.id})">Add to Cart</button>
+                </div>
+            `).join('');
+        }
+
+        // 4. Render Cart
+        function renderCart() {
+            if (cart.length === 0) {
+                cartList.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+                cartTotal.textContent = '0.00';
+                return;
+            }
+
+            cartList.innerHTML = cart.map(item => `
+                <div class="item">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <span style="color: #666;">$${item.price.toFixed(2)}</span>
+                    </div>
+                    <div class="cart-controls">
+                        <button class="btn-small" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="btn-small" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                        <button class="btn-remove" onclick="removeFromCart(${item.id})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Calculate Total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        // 5. Save to localStorage
+        function saveCart() {
+            localStorage.setItem('vanilla_js_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        // 6. Add Item to Cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            saveCart();
+        }
+
+        // 7. Remove Item from Cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+        }
+
+        // 8. Update Item Quantity
+        function updateQuantity(productId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = newQuantity;
+                saveCart();
+            }
+        }
+
+        // Initialize the UI
+        renderProducts();
+        renderCart();
+    </script>
+</body>
+</html>
