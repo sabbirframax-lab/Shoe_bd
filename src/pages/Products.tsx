@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { products, categories } from '../data/products';
+import { Product, categories } from '../data/products';
 import ProductCard from '../components/ProductCard';
-import { Filter } from 'lucide-react';
+import { Filter, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Products: React.FC = () => {
   const location = useLocation();
@@ -10,16 +11,48 @@ const Products: React.FC = () => {
   const initialCategory = queryParams.get('category') || 'সব';
 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setAllProducts(data);
+        } else {
+          // Fallback to hardcoded products if table is empty
+          const { products: hardcodedProducts } = await import('../data/products');
+          setAllProducts(hardcodedProducts);
+        }
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        // Fallback to hardcoded products on error
+        const { products: hardcodedProducts } = await import('../data/products');
+        setAllProducts(hardcodedProducts);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     if (activeCategory === 'সব') {
-      setFilteredProducts(products);
+      setFilteredProducts(allProducts);
     } else {
-      setFilteredProducts(products.filter(p => p.category === activeCategory));
+      setFilteredProducts(allProducts.filter(p => p.category === activeCategory));
     }
-  }, [activeCategory]);
+  }, [activeCategory, allProducts]);
 
   useEffect(() => {
     const categoryFromUrl = queryParams.get('category');
@@ -27,6 +60,14 @@ const Products: React.FC = () => {
       setActiveCategory(categoryFromUrl);
     }
   }, [location.search]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="w-10 h-10 text-orange-600 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen py-12">

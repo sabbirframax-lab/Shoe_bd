@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { products } from '../data/products';
+import { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
-import { ArrowLeft, Check, ShieldCheck, Truck, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Check, ShieldCheck, Truck, AlertCircle, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
   
-  const product = products.find(p => p.id === id);
-  
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
@@ -19,10 +20,52 @@ const ProductDetails: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (product) {
-      setSelectedImage(product.images?.[0] || product.image);
-    }
-  }, [id, product]);
+    const fetchProduct = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (error) throw error;
+        if (data) {
+          setProduct(data);
+          setSelectedImage(data.images?.[0] || data.image);
+        } else {
+          // Fallback to hardcoded products
+          const { products: hardcodedProducts } = await import('../data/products');
+          const found = hardcodedProducts.find(p => p.id === id);
+          if (found) {
+            setProduct(found);
+            setSelectedImage(found.images?.[0] || found.image);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        // Fallback to hardcoded products
+        const { products: hardcodedProducts } = await import('../data/products');
+        const found = hardcodedProducts.find(p => p.id === id);
+        if (found) {
+          setProduct(found);
+          setSelectedImage(found.images?.[0] || found.image);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="w-10 h-10 text-orange-600 animate-spin" />
+      </div>
+    );
+  }
 
   if (!product) {
     return (

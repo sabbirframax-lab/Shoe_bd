@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { products, categories } from '../data/products';
+import { Product, categories } from '../data/products';
 import ProductCard from '../components/ProductCard';
-import { ArrowRight, Truck, ShieldCheck, Clock } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, Clock, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Home: React.FC = () => {
-  const featuredProducts = products.filter(p => p.featured).slice(0, 4);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('featured', true)
+          .limit(4);
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setFeaturedProducts(data);
+        } else {
+          const { products: hardcodedProducts } = await import('../data/products');
+          setFeaturedProducts(hardcodedProducts.filter(p => p.featured).slice(0, 4));
+        }
+      } catch (err) {
+        console.error('Error fetching featured products:', err);
+        const { products: hardcodedProducts } = await import('../data/products');
+        setFeaturedProducts(hardcodedProducts.filter(p => p.featured).slice(0, 4));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeatured();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

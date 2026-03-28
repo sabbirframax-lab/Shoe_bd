@@ -38,7 +38,8 @@ app.post('/api/orders', async (req, res) => {
           product_image: productImage,
           quantity,
           total_price: totalPrice,
-          confirmation_time
+          confirmation_time,
+          status: 'Pending'
         }
       ]);
 
